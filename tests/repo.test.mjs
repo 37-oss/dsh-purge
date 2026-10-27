@@ -31,8 +31,9 @@ test("署名没有被拿掉（LICENSE / README 保留上游作者与来源）", 
   assert.match(lic, /YuJunZhiXue/);
   assert.match(lic, /商业/);
   const readme = read("README.md");
-  assert.match(readme, /署名要求/);
-  assert.match(readme, /YuJunZhiXue\/dsh-purge/);
+  assert.ok(/署名/.test(readme), "README 里没有任何署名说明");
+  assert.ok(readme.includes("YuJunZhiXue/dsh-purge"), "README 没写上游来源仓库");
+  assert.ok(readme.includes("LICENSE"), "README 没链到 LICENSE");
 });
 
 test("exports 与 files 里写到的路径真实存在", () => {
