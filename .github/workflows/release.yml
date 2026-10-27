@@ -14,12 +14,16 @@ concurrency:
 
 jobs:
   release:
-    if: github.repository == 'YuJunZhiXue/dsh-purge'
+    # fork 只在自己的仓库发版，别去碰上游的 Releases
+    if: github.repository == '37-oss/dsh-purge'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: 发版前全量校验（语法 + 结构测试）
+        run: npm run verify
 
       - name: Syntax-check plugin entry
         run: |

@@ -10,6 +10,7 @@ Thumbs.db
 docs/agents/
 
 # 本地草稿，不进仓库
+.scratch*
 scripts/tmp-*.mjs
 scripts/test-*.mjs
 .scratch/

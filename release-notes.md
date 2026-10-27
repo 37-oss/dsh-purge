@@ -1,3 +1,19 @@
+# 1.1.72
+
+## 中文
+
+- 版本 **1.1.72**（fork 自维护线，起点与上游 1.1.71 同源）。
+- 安装与自更新地址指向 `37-oss/dsh-purge`：`package.json` 的 `repository` / `homepage` / `bugs` / `dsh.install`，以及 `lib/update.js` 的 `REPO`。
+- 补上维护用脚手架：`tests/`（`node --test`）、`npm run verify`、`scripts/extract-default-prompt.mjs`、`docker/` 隔离校验、`.github/workflows/ci.yml`。
+- 上游署名、`LICENSE`、`LICENSE-COMMERCIAL.md` 原样保留，未改动作者与来源链接。
+
+## English
+
+- **1.1.72** — self-maintained fork line, branched from upstream 1.1.71.
+- Install and self-update targets moved to `37-oss/dsh-purge` (`package.json` repository/homepage/bugs/dsh.install and `lib/update.js` `REPO`).
+- Added maintenance scaffolding: `tests/` (`node --test`), `npm run verify`, `scripts/extract-default-prompt.mjs`, isolated `docker/` verification, and `.github/workflows/ci.yml`.
+- Upstream attribution, `LICENSE`, and `LICENSE-COMMERCIAL.md` are untouched.
+
 # 1.1.71
 
 ## 中文

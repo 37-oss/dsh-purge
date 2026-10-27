@@ -1,0 +1,7 @@
+.git
+.github
+node_modules
+*.tgz
+*.bak
+.scratch*
+**/*.dshpurge.bak

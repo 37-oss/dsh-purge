@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 语法 + 结构测试
+        run: npm run verify
+
+      - name: 插件入口能被宿主加载（不执行 apply）
+        run: node --input-type=module -e "const m = await import('./lib/index.js'); if (m.name !== 'dsh-purge') process.exit(1); if (!Array.isArray(m.inject)) process.exit(1); console.log('entry ok', m.name, m.inject);"
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 在干净容器里验证（无 dsh、无网络）
+        run: |
+          docker build -f docker/Dockerfile -t dsh-purge-verify:ci .
+          docker run --rm --network none dsh-purge-verify:ci
