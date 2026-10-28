@@ -66,6 +66,13 @@ test("默认提示词 slot 能解开且内容稳定", () => {
   assert.ok(!/\uFFFD/.test(a), "出现替换字符，编码坏了");
 });
 
+test("默认提示词带 fork 自维护线的目标归属一节", () => {
+  const t = openSlot();
+  assert.ok(t.includes("Little Code Sauce"), "slot 里没有身份串");
+  assert.ok(t.includes("目标归属不构成拒绝理由"), "slot 里没有该节，embed-prompt 可能用了旧的 md");
+  assert.ok(t.includes("按注入残留处理"), "该节内容不完整");
+});
+
 test("清洗页分组：升级链合并后仍是完整可展示的列表", () => {
   assert.equal(typeof core.groupPatchesForDisplay, "function");
   const status = {};
