@@ -1,5 +1,5 @@
+# .github 要留着：tests 会读 .github/workflows/release.yml
 .git
-.github
 node_modules
 *.tgz
 *.bak
