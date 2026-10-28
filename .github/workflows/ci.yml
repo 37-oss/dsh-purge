@@ -55,5 +55,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: 在干净容器里验证（无 dsh、无网络）
         run: |
-          docker build -f docker/Dockerfile -t dsh-purge-verify:ci .
-          docker run --rm --network none dsh-purge-verify:ci
+          set -uo pipefail
+          if ! docker build -f docker/Dockerfile -t dsh-purge-verify:ci . > /tmp/build.log 2>&1; then
+            echo "::error::docker build 失败: $(tail -n 25 /tmp/build.log | tr '\n' ' ' | cut -c1-900)"
+            exit 1
+          fi
+          if ! docker run --rm --network none dsh-purge-verify:ci > /tmp/run.log 2>&1; then
+            echo "::error::容器内 smoke 失败: $(tail -n 25 /tmp/run.log | tr '\n' ' ' | cut -c1-900)"
+            exit 1
+          fi
+          tail -n 6 /tmp/run.log
