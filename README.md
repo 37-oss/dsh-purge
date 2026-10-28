@@ -5,7 +5,7 @@
 <h1 align="center">dsh-purge</h1>
 
 <p align="center">
-  <strong>1.1.72</strong> · 自维护 fork <a href="https://github.com/37-oss/dsh-purge">37-oss/dsh-purge</a> · 上游 <a href="https://github.com/YuJunZhiXue/dsh-purge">YuJunZhiXue/dsh-purge</a>
+  <strong>1.1.73</strong> · 自维护 fork <a href="https://github.com/37-oss/dsh-purge">37-oss/dsh-purge</a> · 上游 <a href="https://github.com/YuJunZhiXue/dsh-purge">YuJunZhiXue/dsh-purge</a>
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@
 
 | 项 | 值 |
 | --- | --- |
-| 版本 | `1.1.72`（`package.json`） |
+| 版本 | `1.1.73`（`package.json`） |
 | 分支 | `master` 发版线；`dev` 日常改动，CI 绿了再合 |
 | 适配基线 | `dshTarget: 0.2.0-rc.2`，peer `@deepseek-ai/cordis ^4.0.1`，Node ≥18 |
 | 补丁 | 86 条，id 1–92（有跳号，不复用） |
@@ -75,8 +75,8 @@ dsh plugin --profile desktop add github:37-oss/dsh-purge
 | master 最新 | `github:37-oss/dsh-purge` |
 | dev 分支 | `github:37-oss/dsh-purge#dev` |
 | 某个提交 | `github:37-oss/dsh-purge#<sha>` |
-| 某个 tag | `github:37-oss/dsh-purge#v1.1.72` |
-| Release 源码包 | `https://github.com/37-oss/dsh-purge/releases/download/v1.1.72/dsh-purge-1.1.72.tar.gz` |
+| 某个 tag | `github:37-oss/dsh-purge#v1.1.73` |
+| Release 源码包 | `https://github.com/37-oss/dsh-purge/releases/download/v1.1.73/dsh-purge-1.1.73.tar.gz` |
 | 本机已 clone 的目录 | `dsh plugin --profile web add "C:\\Users\\35140\\Desktop\\dsh-work\\破甲\\dsh-purge"` |
 
 几条边界：
@@ -306,7 +306,7 @@ flowchart TD
 
 | dsh | 用哪版 |
 | --- | --- |
-| 0.2.x（官方 `dsh web` / 桌面 EXE 0.2.0-rc.2、0.2.1-rc.2） | 本仓库 `master`（1.1.72） |
+| 0.2.x（官方 `dsh web` / 桌面 EXE 0.2.0-rc.2、0.2.1-rc.2） | 本仓库 `master`（1.1.73） |
 | 0.1.7 及更早 | 上游的对应旧 tag |
 
 - 官方 Web 与官方桌面**分开装、分开点应用**；社区桌面端不维护。
@@ -334,7 +334,7 @@ npm run embed-prompt     # 重新封装，重写 lib/asset-table.js
 npm run build:client     # lib/redteam/client.js → client.js 里的演练台片段
 ```
 
-完整说明（代码地图、六种改法、发版、上游同步、危险动作）见 [docs/维护手册.md](docs/维护手册.md)。
+完整说明（代码地图、六种改法、发版、上游同步、危险动作）见 [docs/maintenance.md](docs/maintenance.md)。
 
 **本机别随手 `--apply`**：那是唯一会写 `@deepseek-ai/*` 的动作。真机验证放一次性容器或虚拟机。
 
@@ -358,7 +358,7 @@ skills/redteam/         随包技能 23 个
 scripts/                embed-default-prompt / build-client / patch-client-dock / run-tests / extract-default-prompt
 tests/                  14 条 node:test 断言
 docker/                 隔离校验（Dockerfile + smoke.sh + verify.ps1）
-docs/                   维护手册、截图、披露文件
+docs/                   maintenance.md（维护手册）、截图、披露文件
 ```
 
 ---

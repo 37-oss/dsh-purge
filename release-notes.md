@@ -1,3 +1,18 @@
+# 1.1.73
+
+## 中文
+
+- 版本 **1.1.73**。
+- 文档文件名全部改成 ASCII：`docs/维护手册.md` → `docs/maintenance.md`，`docs/修改文档.md` → `docs/modifications.md`，`docs/注入方式改造方案-1.1.34化.md` → `docs/prompt-injection-refactor.md`。Windows 自带 `tar.exe` 解包含中文文件名的包会报 `Invalid empty pathname`，改完不再触发。
+- 新增一条测试：仓库里出现非 ASCII 文件名就让 CI 红，防止再混进来。
+- 补丁表、默认提示词、演练台逻辑一行未改。
+
+## English
+
+- **1.1.73**. Doc filenames are ASCII now: `docs/maintenance.md`, `docs/modifications.md`, `docs/prompt-injection-refactor.md`. Windows `tar.exe` no longer fails with `Invalid empty pathname` on this archive.
+- New test fails the build if a non-ASCII filename shows up again.
+- No patch, prompt, or drill logic changes.
+
 # 1.1.72
 
 ## 中文

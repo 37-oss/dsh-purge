@@ -101,6 +101,23 @@ test("发版同时产出 .tar.gz（dsh plugin add <tarball> 只收 tgz/tar.gz）
   assert.ok(!yml.includes("YuJunZhiXue"), "release.yml 里还留着上游仓库地址");
 });
 
+test("仓库里没有非 ASCII 文件名（Windows 自带 tar 解包会报 Invalid empty pathname）", () => {
+  const roots = ["lib", "bin", "scripts", "tests", "docker", "docs", "presets", "skills", ".github"];
+  const bad = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (/[^\x00-\x7F]/.test(entry.name)) bad.push(path.relative(root, full));
+      if (entry.isDirectory()) walk(full);
+    }
+  };
+  for (const r of roots) {
+    const dir = path.join(root, r);
+    if (fs.existsSync(dir)) walk(dir);
+  }
+  assert.deepEqual(bad, [], "这些文件名不是 ASCII：" + bad.join(", "));
+});
+
 test("release-notes.md 首行与 package.json 版本一致（发版 CI 会卡这条）", () => {
   const first = read("release-notes.md").split(/\r?\n/)[0].trim();
   assert.equal(first, "# " + pkg.version);

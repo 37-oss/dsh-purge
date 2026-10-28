@@ -133,7 +133,7 @@ npm run verify
 | --- | --- | --- |
 | `package.json` `repository/homepage/bugs` | → `37-oss/dsh-purge` | 你的仓库 |
 | `package.json` `dsh.install.{tarball,zip,git}` | → `37-oss` | 否则「装插件」还去拉上游包，你的改动瞬间被盖掉 |
-| `package.json` `version` | 1.1.71 → **1.1.72** | 自更新按 semver 比大小，不涨版本不会更新 |
+| `package.json` `version` | 1.1.71 → **1.1.72**（当前 1.1.73） | 自更新按 semver 比大小，不涨版本不会更新 |
 | `lib/update.js` `REPO` | → `37-oss/dsh-purge` | 「更新」按钮拉你自己仓库的 tag |
 | `package.json` 新增 `upstream` 字段 | 记上游地址 | 留来源，也方便脚本判断 |
 | **未改**：`LICENSE`、`LICENSE-COMMERCIAL.md`、`README` 署名要求、`client.js` 的 `welcome.repo`、`lib/redteam/ui.js:360` | 保留 | 署名要求。`tests/repo.test.mjs` 有断言守着，防止手滑删掉 |
@@ -158,7 +158,7 @@ git push            # push 触发 .github/workflows/release.yml
 3. 版本 tag `v<version>` 没发过就 `gh release create`，附带 `dsh-purge-<version>.zip`（`git archive` 打的源码包）。
 4. `release-notes.md` 首行对不上版本会直接 fail —— 这是上游设计的闸，别拆。
 
-装回自己机器：`dsh plugin --profile web add github:37-oss/dsh-purge`（桌面端换 `desktop` profile；固定版本写 `github:37-oss/dsh-purge#v1.1.72`）。
+装回自己机器：`dsh plugin --profile web add github:37-oss/dsh-purge`（桌面端换 `desktop` profile；固定版本写 `github:37-oss/dsh-purge#v1.1.73`）。
 
 ---
 
