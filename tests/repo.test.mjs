@@ -86,6 +86,21 @@ test("随包技能与预设没被删空", () => {
   }
 });
 
+test("README 的安装命令是 dsh plugin add 的 git 短形式", () => {
+  const readme = read("README.md");
+  assert.ok(readme.includes("dsh plugin --profile web add github:37-oss/dsh-purge"), "README 缺 web 端短安装命令");
+  assert.ok(readme.includes("dsh plugin --profile desktop add github:37-oss/dsh-purge"), "README 缺桌面端短安装命令");
+  assert.ok(readme.includes("#v1.1."), "README 没写固定 tag 的写法");
+});
+
+test("发版同时产出 .tar.gz（dsh plugin add <tarball> 只收 tgz/tar.gz）", () => {
+  const yml = read(".github/workflows/release.yml");
+  assert.ok(yml.includes("--format=tar.gz"), "release.yml 没有打 tar.gz");
+  assert.ok(yml.includes("--format=zip"), "release.yml 没有打 zip");
+  assert.ok(yml.includes("gh release upload \"$tag\" \"$zip\" \"$tgz\""), "release.yml 没同时上传两个包");
+  assert.ok(!yml.includes("YuJunZhiXue"), "release.yml 里还留着上游仓库地址");
+});
+
 test("release-notes.md 首行与 package.json 版本一致（发版 CI 会卡这条）", () => {
   const first = read("release-notes.md").split(/\r?\n/)[0].trim();
   assert.equal(first, "# " + pkg.version);

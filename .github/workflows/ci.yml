@@ -31,6 +31,24 @@ jobs:
       - name: 插件入口能被宿主加载（不执行 apply）
         run: node --input-type=module -e "const m = await import('./lib/index.js'); if (m.name !== 'dsh-purge') process.exit(1); if (!Array.isArray(m.inject)) process.exit(1); console.log('entry ok', m.name, m.inject);"
 
+  install-spec:
+    # 用 pnpm 真装一次 README 里的 git 短地址，确认这个 spec 形式能被解析、能打包
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: pnpm add github:<repo> 到临时目录
+        run: |
+          set -euo pipefail
+          npm i -g pnpm@10 >/dev/null
+          mkdir -p /tmp/probe && cd /tmp/probe
+          printf '{"name":"probe","private":true}\n' > package.json
+          pnpm add "github:${{ github.repository }}" 2>&1 | tail -n 20
+          test -f node_modules/dsh-purge/package.json
+          node -e "const p=require('./node_modules/dsh-purge/package.json'); if(!p.dsh?.bundle?.patch) { console.error('no dsh.bundle.patch'); process.exit(1); } console.log('installed', p.name, p.version);"
+
   container:
     runs-on: ubuntu-latest
     steps:

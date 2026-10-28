@@ -49,18 +49,23 @@ jobs:
             exit 1
           fi
           zip="dsh-purge-${version}.zip"
+          tgz="dsh-purge-${version}.tar.gz"
+          prefix="dsh-purge-${version}/"
+          # .zip 给手动下载，.tar.gz 给 dsh plugin add <tarball> 用（它只收 tgz/tar.gz）
           if git rev-parse -q --verify "refs/tags/${tag}^{}" >/dev/null; then
-            commit="$(git rev-parse "refs/tags/${tag}^{}")"
-            git archive --format=zip --prefix="dsh-purge-${version}/" --output="$zip" "$commit"
+            ref="$(git rev-parse "refs/tags/${tag}^{}")"
+            git archive --format=zip --prefix="$prefix" --output="$zip" "$ref"
+            git archive --format=tar.gz --prefix="$prefix" --output="$tgz" "$ref"
             gh release create "$tag" --title "$tag" --notes-file release-notes.md
           else
-            git archive --format=zip --prefix="dsh-purge-${version}/" --output="$zip" HEAD
+            git archive --format=zip --prefix="$prefix" --output="$zip" HEAD
+            git archive --format=tar.gz --prefix="$prefix" --output="$tgz" HEAD
             args=(release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file release-notes.md)
             case "$version" in
               *beta*|*alpha*|*rc*) args+=(--prerelease) ;;
             esac
             gh "${args[@]}"
           fi
-          test -s "$zip"
-          gh release upload "$tag" "$zip" --clobber
-          echo "published https://github.com/YuJunZhiXue/dsh-purge/releases/tag/${tag}"
+          test -s "$zip" && test -s "$tgz"
+          gh release upload "$tag" "$zip" "$tgz" --clobber
+          echo "published https://github.com/37-oss/dsh-purge/releases/tag/${tag}"

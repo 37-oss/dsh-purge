@@ -73,19 +73,42 @@ DeepSeek Harness 的破甲 / 红队评测插件。装在本机官方 Harness 上
 
 ## 安装
 
+`dsh plugin add` 认 git 地址，所以直接指仓库就行，不用再拼 `archive/...tar.gz`：
+
 **Web（官方 `dsh web`）**
 
 ```sh
-dsh plugin --profile web add https://github.com/37-oss/dsh-purge/archive/refs/heads/master.tar.gz
+dsh plugin --profile web add github:37-oss/dsh-purge
 ```
 
 **桌面端（官方 EXE）**
 
 ```sh
-dsh plugin --profile desktop add https://github.com/37-oss/dsh-purge/archive/refs/heads/master.tar.gz
+dsh plugin --profile desktop add github:37-oss/dsh-purge
 ```
 
-当前目录已经是本仓库时，把归档地址换成 `add .`。`dsh` 不在 PATH 时走下面的手动安装。
+装哪个分支 / 哪个版本，挂在 `#` 后面：
+
+| 想装的东西 | 写法 |
+| --- | --- |
+| master 最新 | `github:37-oss/dsh-purge` |
+| 跟 dev 分支 | `github:37-oss/dsh-purge#dev` |
+| 固定某个提交 | `github:37-oss/dsh-purge#<sha>` |
+| 固定 tag | `github:37-oss/dsh-purge#v1.1.72` |
+| Release 里的源码包 | `https://github.com/37-oss/dsh-purge/releases/download/v1.1.72/dsh-purge-1.1.72.tar.gz` |
+| 本机已 clone 的目录（必须绝对路径） | `dsh plugin --profile web add "C:\\Users\\35140\\Desktop\\dsh-work\\破甲\\dsh-purge"` |
+
+后两行要等仓库上真有东西：tag 和 Release 包由 `release.yml` 在 push `master` 时打（当前还没发过版），`#dev` 要先把 dev 分支推上去。
+
+几条实话：
+
+- **`dsh plugin add dsh-purge`（裸包名）不行**，那是走 npm registry 的形式，npm 上没有这个包名；上游也明说不要 `pnpm add dsh-purge`。
+- 要 `git` 在 PATH 里。`dsh` 装 git 依赖前会先 `git ls-remote` 探一次仓库，连不上会直接把 git 的日志打给你。
+- pnpm 会缓存 git 依赖。想强制换成最新提交，用 `#<sha>` 或先 `dsh plugin --profile web update dsh-purge`。
+- 只有 `.tgz` / `.tar.gz` 能当 tarball 装；`.zip` 会被拒（`a URL must point at a git repository or a tarball`）。
+- `dsh` 不在 PATH 时走下面的手动安装。
+
+装完还是要走「重启宿主 → 点应用」三步，见下。
 
 ### 装完还要做三步
 
